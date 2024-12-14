@@ -7,16 +7,18 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 type RootStackParamList = {
   Start: undefined;
   NameInput: undefined;
-  Question3: { score: number };
-  Question: undefined;
+  Question3: { name: string; score: number };
+  Question: { name: string; score: number };
 };
 
 type Props = NativeStackScreenProps<RootStackParamList, "Question">;
 
-const Question: React.FC<Props> = ({ navigation }) => {
+const Question: React.FC<Props> = ({ navigation, route }) => {
+  const { name, score } = route.params; // Question6에서 전달된 이름과 점수
+
   const handleAnswer = (points: number) => {
-    // Navigate to Question3 with the selected points
-    navigation.navigate("Question3", { score: points });
+    // Navigate to Question3 with the selected points and name
+    navigation.navigate("Question3", { name, score: score + points });
   };
 
   return (

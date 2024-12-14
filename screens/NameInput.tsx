@@ -6,8 +6,8 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 type RootStackParamList = {
   Start: undefined;
   NameInput: undefined;
-  Question6: undefined;
-  Quesiton: undefined;
+  Question6: { name: string };
+  Question: { name: string; score: number };
 };
 
 type Props = NativeStackScreenProps<RootStackParamList, "Question6">;
@@ -20,7 +20,7 @@ const NameInput: React.FC<Props> = ({ navigation }) => {
       alert("이름을 입력해주세요!");
       return;
     }
-    navigation.navigate("Question6");
+    navigation.navigate("Question6", {name});
   };
 
   return (

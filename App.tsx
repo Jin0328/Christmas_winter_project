@@ -13,7 +13,6 @@ import Question1 from "./screens/Question1";
 import Question from "./screens/Question";
 import Question5 from "./screens/Question5";
 import Question6 from "./screens/Question6";
-import LoadingPage from "./screens/LoadingPage";
 import NameInput from "./screens/NameInput";
 
 // 네비게이션 스택 타입 정의
@@ -28,7 +27,6 @@ type RootStackParamList = {
   Question: undefined;
   Question5: undefined;
   Question6: undefined;
-  LoadingPage: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -60,7 +58,6 @@ const App = () => {
           <Stack.Screen name="Question" component={Question} />
           <Stack.Screen name="Question5" component={Question5} />
           <Stack.Screen name="Question6" component={Question6} />
-          <Stack.Screen name="LoadingPage" component={LoadingPage} />
           <Stack.Screen name="NameInput" component={NameInput} />
         </Stack.Navigator>
       )}

@@ -7,16 +7,18 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 type RootStackParamList = {
   Start: undefined;
   NameInput: undefined;
-  Question: { score: number };
-  Question6: undefined;
+  Question6: { name: string };
+  Question: { name: string; score: number };
 };
 
 type Props = NativeStackScreenProps<RootStackParamList, "Question6">;
 
-const Question6: React.FC<Props> = ({ navigation }) => {
+const Question6: React.FC<Props> = ({ navigation, route }) => {
+  const { name } = route.params;
+
   const handleAnswer = (points: number) => {
     // Navigate to the Question page and pass the updated score
-    navigation.navigate("Question", { score: points });
+    navigation.navigate("Question", { name, score: points });
   };
 
   return (
