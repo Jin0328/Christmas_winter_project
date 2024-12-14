@@ -4,19 +4,48 @@ import { FontSize, Color, FontFamily, Border } from "../GlobalStyles";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 type RootStackParamList = {
-  FinalPage: { name: string; score: number; message: string };
+  FinalPage: { name: string; score: number; message: string; reply: string };
   Question5: { name: string; score: number };
 };
 
 type Props = NativeStackScreenProps<RootStackParamList, "Question5">;
 
 const Question5: React.FC<Props> = ({ navigation, route }) => {
-  const { name, score } = route.params; // 이전 점수와 이름 받기
-  const [message, setMessage] = React.useState(""); // 고민 내용 저장
+  const { name, score } = route.params;
+  const [message, setMessage] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
 
-  const handleNext = () => {
-    // FinalPage로 이름, 점수, 메시지 전달
-    navigation.navigate("FinalPage", { name, score, message });
+  const handleNext = async () => {
+    if (!message.trim()) {
+      alert("고민을 작성해주세요!");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const response = await fetch("http://192.168.45.135:5000/api/santa-reply/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ message }),
+      });
+
+      const data = await response.json();
+      setLoading(false);
+
+      // FinalPage로 이동하면서 Santa의 답장을 포함하여 전달
+      navigation.navigate("FinalPage", {
+        name,
+        score,
+        message,
+        reply: data.reply,
+      });
+    } catch (error) {
+      setLoading(false);
+      alert("Santa 서버와 연결하는 데 문제가 발생했어요!");
+    }
   };
 
   return (
@@ -35,14 +64,13 @@ const Question5: React.FC<Props> = ({ navigation, route }) => {
           />
           <Text style={[styles.from, styles.toTypo]}>From. {name}</Text>
         </View>
-        <TouchableOpacity style={styles.question7Item} onPress={handleNext}>
-          <Text style={styles.text1}>선물 받으러 가기</Text>
+        <TouchableOpacity style={styles.question7Item} onPress={handleNext} disabled={loading}>
+          <Text style={styles.text1}>{loading ? "처리 중..." : "선물 받으러 가기"}</Text>
         </TouchableOpacity>
       </View>
     </TouchableWithoutFeedback>
   );
 };
-
 
 const styles = StyleSheet.create({
   toTypo: {
