@@ -1,9 +1,26 @@
 import * as React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { Image } from "expo-image";
 import { Color, Border, FontSize, FontFamily } from "../GlobalStyles";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
-const Question2 = () => {
+type RootStackParamList = {
+  Start: undefined;
+  NameInput: undefined;
+  Question1: { score: number };
+  Question2: { score: number };
+};
+
+type Props = NativeStackScreenProps<RootStackParamList, "Question2">;
+
+const Question2: React.FC<Props> = ({ navigation, route }) => {
+  const { score } = route.params; // 이전 점수 받기
+
+  const handleAnswer = (points: number) => {
+    // 선택한 점수를 누적하고 Question1로 이동
+    navigation.navigate("Question1", { score: score + points });
+  };
+
   return (
     <View style={styles.question4}>
       <View style={[styles.question4Child, styles.rectangleViewBorder]} />
@@ -32,14 +49,23 @@ const Question2 = () => {
         contentFit="cover"
         source={require("../assets/group-2.png")}
       />
-      <Text style={styles.text}>{`내가 가장 좋아하는
-겨울 액티비티는
-무엇인가요?`}</Text>
+      <Text style={styles.text}>{`내가 가장 좋아하는\n겨울 액티비티는\n무엇인가요?`}</Text>
       <Text style={styles.text1}>4</Text>
-      <Text style={[styles.a, styles.aTypo]}>A) 스키나 스노보드</Text>
-      <Text style={[styles.b, styles.aTypo]}>B) 빙상 빙어 낚시</Text>
-      <Text style={[styles.d, styles.aTypo]}>D) 스파에서 휴식하기</Text>
-      <Text style={[styles.c, styles.aTypo]}>C) 오로라 투어</Text>
+
+      {/* 각 선택지를 클릭하면 점수를 계산하고 Question1로 이동 */}
+      <TouchableOpacity onPress={() => handleAnswer(5)}>
+        <Text style={[styles.a, styles.aTypo]}>A) 스키나 스노보드</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => handleAnswer(10)}>
+        <Text style={[styles.b, styles.aTypo]}>B) 빙상 빙어 낚시</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => handleAnswer(20)}>
+        <Text style={[styles.d, styles.aTypo]}>D) 스파에서 휴식하기</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => handleAnswer(15)}>
+        <Text style={[styles.c, styles.aTypo]}>C) 오로라 투어</Text>
+      </TouchableOpacity>
+
       <View style={[styles.rectangleView, styles.rectanglePosition]} />
     </View>
   );
@@ -123,7 +149,7 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   text1: {
-    top: 129,
+    top: 133,
     left: 176,
     width: 37,
     height: 38,

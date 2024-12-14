@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { Image } from "expo-image";
 import { Color, Border, FontSize, FontFamily } from "../GlobalStyles";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -7,13 +7,18 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 type RootStackParamList = {
   Start: undefined;
   NameInput: undefined;
-  Question: undefined;
+  Question: { score: number };
   Question6: undefined;
 };
 
 type Props = NativeStackScreenProps<RootStackParamList, "Question6">;
 
 const Question6: React.FC<Props> = ({ navigation }) => {
+  const handleAnswer = (points: number) => {
+    // Navigate to the Question page and pass the updated score
+    navigation.navigate("Question", { score: points });
+  };
+
   return (
     <View style={styles.question1}>
       <View style={[styles.question1Child, styles.question1Border]} />
@@ -47,11 +52,19 @@ const Question6: React.FC<Props> = ({ navigation }) => {
         산타가 당신에게 선물을 주러 올 때 당신은 무엇을 하고 있을까요?
       </Text>
       <Text style={styles.text1}>1</Text>
-      
-      <Text style={[styles.a, styles.aTypo]}>A) 침대에서 꿀잠</Text>
-      <Text style={[styles.b, styles.aTypo]}>B) 친구들과 파티</Text>
-      <Text style={[styles.d, styles.aTypo]}>D) 코딩 하기</Text>
-      <Text style={[styles.c, styles.aTypo]}>C) 핫초코 마시며 책 읽기</Text>
+
+      <TouchableOpacity onPress={() => handleAnswer(5)}>
+        <Text style={[styles.a, styles.aTypo]}>A) 침대에서 꿀잠</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => handleAnswer(10)}>
+        <Text style={[styles.b, styles.aTypo]}>B) 친구들과 파티</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => handleAnswer(20)}>
+        <Text style={[styles.d, styles.aTypo]}>D) 코딩 하기</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => handleAnswer(15)}>
+        <Text style={[styles.c, styles.aTypo]}>C) 핫초코 마시며 책 읽기</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -130,7 +143,7 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   text1: {
-    top: 129,
+    top: 133,
     left: 176,
     width: 37,
     height: 38,

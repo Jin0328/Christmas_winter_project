@@ -1,9 +1,26 @@
 import * as React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { Image } from "expo-image";
 import { Color, Border, FontSize, FontFamily } from "../GlobalStyles";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
-const Question1 = () => {
+type RootStackParamList = {
+  Start: undefined;
+  NameInput: undefined;
+  Question4: { score: number };
+  Question1: { score: number };
+};
+
+type Props = NativeStackScreenProps<RootStackParamList, "Question1">;
+
+const Question1: React.FC<Props> = ({ navigation, route }) => {
+  const { score } = route.params; // 이전 점수 받기
+
+  const handleAnswer = (points: number) => {
+    // 선택한 점수를 누적하고 Question4로 이동
+    navigation.navigate("Question4", { score: score + points });
+  };
+
   return (
     <View style={styles.question5}>
       <View style={[styles.question5Child, styles.rectangleViewBorder]} />
@@ -32,14 +49,23 @@ const Question1 = () => {
         contentFit="cover"
         source={require("../assets/group-2.png")}
       />
-      <Text style={styles.text}>{`당신이 가장 좋아하는
-크리스마스 장식은
-무엇인가요?`}</Text>
+      <Text style={styles.text}>{`당신이 가장 좋아하는\n크리스마스 장식은\n무엇인가요?`}</Text>
       <Text style={styles.text1}>5</Text>
-      <Text style={[styles.a, styles.aTypo]}>A) 반짝이는 전구</Text>
-      <Text style={[styles.b, styles.aTypo]}>B) 따뜻한 양초</Text>
-      <Text style={[styles.d, styles.aTypo]}>D) 심플한 리본</Text>
-      <Text style={[styles.c, styles.aTypo]}>C) 독특한 오너먼트</Text>
+
+      {/* 각 선택지를 클릭하면 점수를 계산하고 Question4로 이동 */}
+      <TouchableOpacity onPress={() => handleAnswer(5)}>
+        <Text style={[styles.a, styles.aTypo]}>A) 반짝이는 전구</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => handleAnswer(10)}>
+        <Text style={[styles.b, styles.aTypo]}>B) 따뜻한 양초</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => handleAnswer(20)}>
+        <Text style={[styles.d, styles.aTypo]}>D) 심플한 리본</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => handleAnswer(15)}>
+        <Text style={[styles.c, styles.aTypo]}>C) 독특한 오너먼트</Text>
+      </TouchableOpacity>
+
       <View style={[styles.rectangleView, styles.rectanglePosition]} />
       <View style={[styles.rectangleView, styles.rectanglePosition]} />
     </View>
@@ -124,7 +150,7 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   text1: {
-    top: 129,
+    top: 133,
     left: 176,
     width: 37,
     height: 38,

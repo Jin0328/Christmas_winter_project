@@ -72,8 +72,8 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   text1: {
-    top: 715,
-    left: 128,
+    top: 718,
+    left: 139,
     fontSize: FontSize.size_2xl,
     lineHeight: 55,
     color: Color.colorWhite,

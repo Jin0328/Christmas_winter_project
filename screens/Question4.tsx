@@ -1,9 +1,26 @@
 import * as React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { Image } from "expo-image";
 import { Color, Border, FontSize, FontFamily } from "../GlobalStyles";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
-const Question4 = () => {
+type RootStackParamList = {
+  Start: undefined;
+  NameInput: undefined;
+  Question5: { score: number };
+  Question4: { score: number };
+};
+
+type Props = NativeStackScreenProps<RootStackParamList, "Question4">;
+
+const Question4: React.FC<Props> = ({ navigation, route }) => {
+  const { score } = route.params; // 이전 점수 받기
+
+  const handleAnswer = (points: number) => {
+    // 선택한 점수를 누적하고 Question5로 이동
+    navigation.navigate("Question5", { score: score + points });
+  };
+
   return (
     <View style={styles.question6}>
       <View style={[styles.question6Child, styles.rectangleViewLayout]} />
@@ -32,14 +49,23 @@ const Question4 = () => {
         contentFit="cover"
         source={require("../assets/group-2.png")}
       />
-      <Text style={styles.text}>{`크리스마스 영화를
-고른다면
-어떤 스타일?`}</Text>
+      <Text style={styles.text}>{`크리스마스 영화를\n고른다면\n어떤 스타일?`}</Text>
       <Text style={styles.text1}>6</Text>
-      <Text style={[styles.a, styles.aTypo]}>A) 로맨스 코미디 영화</Text>
-      <Text style={[styles.b, styles.aTypo]}>B) 따뜻한 가족 영화</Text>
-      <Text style={[styles.d, styles.aTypo]}>D) 고전적인 명작</Text>
-      <Text style={[styles.c, styles.aTypo]}>C) 신비로운 판타지 영화</Text>
+
+      {/* 각 선택지를 클릭하면 점수를 계산하고 Question5로 이동 */}
+      <TouchableOpacity onPress={() => handleAnswer(5)}>
+        <Text style={[styles.a, styles.aTypo]}>A) 로맨스 코미디 영화</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => handleAnswer(10)}>
+        <Text style={[styles.b, styles.aTypo]}>B) 따뜻한 가족 영화</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => handleAnswer(20)}>
+        <Text style={[styles.d, styles.aTypo]}>D) 고전적인 명작</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => handleAnswer(15)}>
+        <Text style={[styles.c, styles.aTypo]}>C) 신비로운 판타지 영화</Text>
+      </TouchableOpacity>
+
       <View style={[styles.rectangleView, styles.rectanglePosition]} />
     </View>
   );
@@ -123,7 +149,7 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   text1: {
-    top: 129,
+    top: 133,
     left: 176,
     width: 37,
     height: 38,

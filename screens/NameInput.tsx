@@ -7,9 +7,10 @@ type RootStackParamList = {
   Start: undefined;
   NameInput: undefined;
   Question6: undefined;
+  Quesiton: undefined;
 };
 
-type Props = NativeStackScreenProps<RootStackParamList, "NameInput">;
+type Props = NativeStackScreenProps<RootStackParamList, "Question6">;
 
 const NameInput: React.FC<Props> = ({ navigation }) => {
   const [name, setName] = React.useState(""); 

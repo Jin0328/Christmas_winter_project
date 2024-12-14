@@ -1,9 +1,24 @@
 import * as React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { Image } from "expo-image";
 import { Color, Border, FontSize, FontFamily } from "../GlobalStyles";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
-const Question = () => {
+type RootStackParamList = {
+  Start: undefined;
+  NameInput: undefined;
+  Question3: { score: number };
+  Question: undefined;
+};
+
+type Props = NativeStackScreenProps<RootStackParamList, "Question">;
+
+const Question: React.FC<Props> = ({ navigation }) => {
+  const handleAnswer = (points: number) => {
+    // Navigate to Question3 with the selected points
+    navigation.navigate("Question3", { score: points });
+  };
+
   return (
     <View style={styles.question2}>
       <View style={[styles.question2Child, styles.rectangleViewBorder]} />
@@ -32,16 +47,22 @@ const Question = () => {
         contentFit="cover"
         source={require("../assets/group-2.png")}
       />
-      <Text style={styles.text}>{`크리스마스 선물을
-받을 자격이 있다면
-이유는 무엇인가요?`}</Text>
+      <Text style={styles.text}>{`크리스마스 선물을\n받을 자격이 있다면\n이유는 무엇인가요?`}</Text>
       <Text style={styles.text1}>2</Text>
-      <Text style={[styles.a, styles.aTypo]}>
-        A) 눈물 한 방울 안 흘렸으니까
-      </Text>
-      <Text style={[styles.b, styles.aTypo]}>B) 산타가 좋아하니까</Text>
-      <Text style={[styles.d, styles.aTypo]}>D) 마음만은 어린이니까</Text>
-      <Text style={[styles.c, styles.aTypo]}>C) 정말 열심히 살았으니까</Text>
+      
+      {/* 각 선택지를 클릭하면 해당 점수를 전달하며 Question3로 이동 */}
+      <TouchableOpacity onPress={() => handleAnswer(5)}>
+        <Text style={[styles.a, styles.aTypo]}>A) 눈물 한 방울 안 흘렸으니까</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => handleAnswer(10)}>
+        <Text style={[styles.b, styles.aTypo]}>B) 산타가 좋아하니까</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => handleAnswer(20)}>
+        <Text style={[styles.d, styles.aTypo]}>D) 마음만은 어린이니까</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => handleAnswer(15)}>
+        <Text style={[styles.c, styles.aTypo]}>C) 정말 열심히 살았으니까</Text>
+      </TouchableOpacity>
       <View style={[styles.rectangleView, styles.rectanglePosition]} />
     </View>
   );
@@ -125,7 +146,7 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   text1: {
-    top: 129,
+    top: 133,
     left: 176,
     width: 37,
     height: 38,
