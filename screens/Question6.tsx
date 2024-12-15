@@ -17,7 +17,6 @@ const Question6: React.FC<Props> = ({ navigation, route }) => {
   const { name } = route.params;
 
   const handleAnswer = (points: number) => {
-    // Navigate to the Question page and pass the updated score
     navigation.navigate("Question", { name, score: points });
   };
 

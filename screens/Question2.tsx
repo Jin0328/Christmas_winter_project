@@ -14,10 +14,9 @@ type RootStackParamList = {
 type Props = NativeStackScreenProps<RootStackParamList, "Question2">;
 
 const Question2: React.FC<Props> = ({ navigation, route }) => {
-  const { name, score } = route.params; // 이전 점수와 이름 받기
+  const { name, score } = route.params;
 
   const handleAnswer = (points: number) => {
-    // 선택한 점수를 누적하고 Question1로 이동
     navigation.navigate("Question1", { name, score: score + points });
   };
 
@@ -52,7 +51,6 @@ const Question2: React.FC<Props> = ({ navigation, route }) => {
       <Text style={styles.text}>{`내가 가장 좋아하는\n겨울 액티비티는\n무엇인가요?`}</Text>
       <Text style={styles.text1}>4</Text>
 
-      {/* 각 선택지를 클릭하면 점수를 계산하고 Question1로 이동 */}
       <TouchableOpacity onPress={() => handleAnswer(5)}>
         <Text style={[styles.a, styles.aTypo]}>A) 스키나 스노보드</Text>
       </TouchableOpacity>

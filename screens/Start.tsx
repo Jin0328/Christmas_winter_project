@@ -14,7 +14,7 @@ type Props = NativeStackScreenProps<RootStackParamList, "Start">;
 
 
 const Start = () => {
-  const navigation = useNavigation(); // Navigation 객체 가져오기
+  const navigation = useNavigation();
 
   return (
     <View style={styles.start}>

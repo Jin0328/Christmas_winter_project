@@ -3,6 +3,7 @@ import { Image } from "expo-image";
 import { StyleSheet, Text, View, TouchableOpacity, Share } from "react-native";
 import { FontSize, Color, FontFamily, Border } from "../GlobalStyles";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { useEffect, useState } from 'react';
 
 type RootStackParamList = {
   FinalPage: { name: string; score: number; message: string; reply: string };
@@ -11,7 +12,23 @@ type RootStackParamList = {
 type Props = NativeStackScreenProps<RootStackParamList, "FinalPage">;
 
 const FinalPage: React.FC<Props> = ({ route }) => {
-  const { name, score, message, reply } = route.params;
+  const { name, score, reply } = route.params;
+  const [d, setd] = useState<string>("");
+
+  useEffect(() => {
+    // 현재 날짜 가져오기
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0"); // 월은 0부터 시작하므로 +1
+    const day = String(today.getDate()).padStart(2, "0");
+
+    // 날짜 형식 지정
+    const formattedDate = `${year}.${month}.${day}`;
+
+    // 상태 업데이트
+    setd(formattedDate);
+    }, []); // 컴포넌트가 마운트될 때 실행
+
 
   const getGift = (score: number) => {
     if (score >= 30 && score <= 40) return "포근한 담요";
@@ -54,9 +71,10 @@ const FinalPage: React.FC<Props> = ({ route }) => {
       <Text style={styles.text}>{`짠! 산타🎅🏻의\n편지가 도착했어요`}</Text>
       <Text style={[styles.text1, styles.textTypo]}>{`호호호 ${name}\n메리크리스마스~~`}</Text>
       <Text style={[styles.text2, styles.textTypo]}>
-        내가 준비한 <Text style={styles.underline}>{gift}</Text> 어때?
+        내가 준비한 <Text style={styles.underline}>{gift}</Text> 어때요?
       </Text>
       <Text style={[styles.text5, styles.textTypo]}>{reply}</Text>
+      <Text style={[styles.text6, styles.textTypo2]}>{`${d}\n산타할아버지가`}</Text>
       <TouchableOpacity style={[styles.finalPageItem, styles.text4Position]} onPress={handleShare}>
         <Text style={styles.text4}>공유하기</Text>
       </TouchableOpacity>
@@ -74,6 +92,17 @@ const styles = StyleSheet.create({
     fontSize: FontSize.size_xl,
     left: 50,
     textAlign: "left",
+    color: Color.colorWhite,
+    fontFamily: FontFamily.notoSansBold,
+    fontWeight: "700",
+    position: "absolute",
+  },
+  textTypo2: {
+    width: 288,
+    lineHeight: 34,
+    fontSize: FontSize.size_xl,
+    left: 50,
+    textAlign: "right",
     color: Color.colorWhite,
     fontFamily: FontFamily.notoSansBold,
     fontWeight: "700",
@@ -113,6 +142,10 @@ const styles = StyleSheet.create({
   },
   text5: {
     top: 340,
+    height: 300,
+  },
+  text6: {
+    top: 600,
     height: 300,
   },
   finalPageItem: {

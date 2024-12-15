@@ -17,7 +17,6 @@ const Question: React.FC<Props> = ({ navigation, route }) => {
   const { name, score } = route.params; // Question6에서 전달된 이름과 점수
 
   const handleAnswer = (points: number) => {
-    // Navigate to Question3 with the selected points and name
     navigation.navigate("Question3", { name, score: score + points });
   };
 
@@ -52,7 +51,6 @@ const Question: React.FC<Props> = ({ navigation, route }) => {
       <Text style={styles.text}>{`크리스마스 선물을\n받을 자격이 있다면\n이유는 무엇인가요?`}</Text>
       <Text style={styles.text1}>2</Text>
       
-      {/* 각 선택지를 클릭하면 해당 점수를 전달하며 Question3로 이동 */}
       <TouchableOpacity onPress={() => handleAnswer(5)}>
         <Text style={[styles.a, styles.aTypo]}>A) 눈물 한 방울 안 흘렸으니까</Text>
       </TouchableOpacity>

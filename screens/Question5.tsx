@@ -34,8 +34,7 @@ const Question5: React.FC<Props> = ({ navigation, route }) => {
 
       const data = await response.json();
       setLoading(false);
-
-      // FinalPage로 이동하면서 Santa의 답장을 포함하여 전달
+      
       navigation.navigate("FinalPage", {
         name,
         score,
